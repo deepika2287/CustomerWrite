@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CustomerWrite.Events;
+using CustomerWrite.Models;
+using CustomerWrite.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -25,6 +29,9 @@ namespace CustomerWrite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddEntityFrameworkSqlServer().AddDbContext<MicroServices_DeepikaContext>(option => option.UseSqlServer(Configuration["Connectionstrings:CustomerRepo"]));
+            services.AddScoped<ISQLRepository, SQLRepository>();
+            services.AddScoped<IEventHandler, CustomerEventsListener>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
