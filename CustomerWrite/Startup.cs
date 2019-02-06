@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using CustomerWrite.Commands;
 
 namespace CustomerWrite
 {
@@ -31,6 +32,7 @@ namespace CustomerWrite
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddEntityFrameworkSqlServer().AddDbContext<MicroServices_DeepikaContext>(option => option.UseSqlServer(Configuration["Connectionstrings:CustomerRepo"]));
             services.AddScoped<ISQLRepository, SQLRepository>();
+            services.AddScoped<ICommandHandler, CustomerCommandHandler>();
             services.AddScoped<IEventHandler, CustomerEventsListener>();
         }
 
